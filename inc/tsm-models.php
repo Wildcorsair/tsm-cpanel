@@ -68,9 +68,9 @@ function tsm_delete_model_item() {
     $column = $wpdb->get_col( $wpdb->prepare( "SELECT COUNT(*) AS `rows_count` FROM `{$wpdb->prefix}orders` WHERE `model_id` = %d", $rec_id ), 0 );
     if ( $column[0] == 0 ) {
         $wpdb->delete( "{$wpdb->prefix}models", array( 'id' => $rec_id ), array( '%d' ) );
-        return wp_send_json( array( 'delete_status' =>  'ok', 'message' => 'Remove complited.' ) );
+        return wp_send_json( array( 'delete_status' =>  'success', 'message' => 'Remove complited.' ) );
     }
-    return wp_send_json( array( 'delete_status' =>  'error', 'message' => 'Can\'t to remove this model item! The model has dependence.' ) );
+    return wp_send_json( array( 'delete_status' =>  'error', 'message' => 'Can\'t to remove this model! The model has dependence.' ) );
 }
 
 /**

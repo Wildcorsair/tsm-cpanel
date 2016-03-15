@@ -80,6 +80,28 @@ function tsm_get_models_by_brand_id() {
     return wp_send_json( $rows );
 }
 
+function tsm_delete_order_item() {
+    global $wpdb;
+    
+    if ( !check_ajax_referer( 'tsm_security_nonce', 'security' ) ) {
+        return wp_send_json_error( 'Invalid security key!' );
+    }
+    
+    if ( !current_user_can( 'manage_options' ) ) {
+        return wp_send_json_error( 'Sorry, access denied!' );
+    }
+    
+    if ( isset( $_GET['rec_id'] )) {
+        $rec_id = intval( $_GET['rec_id'] );
+        $affected_rows = $wpdb->delete( "{$wpdb->prefix}orders", array( 'id' => $rec_id ), array( '%d' ) );
+        if ( $affected_rows > 0 ) {
+            return wp_send_json( array( 'delete_status' =>  'success', 'message' => 'Remove complited.' ) );
+        } else {
+            return wp_send_json( array( 'delete_status' =>  'error', 'message' => 'Can\'t to remove this order!' ) );
+        }
+    }
+}
+
 if ( isset( $_POST['save_order'] ) ) {
 
     global $wpdb;
@@ -136,5 +158,6 @@ if ( isset( $_POST['save_order'] ) ) {
 /**
  *  Add actions
  */
+add_action( 'wp_ajax_delete_order_item', 'tsm_delete_order_item' );
 add_action( 'wp_ajax_check_brand_item', 'tsm_get_models_by_brand_id' );
 add_action('admin_menu', 'tsm_order_menu');

@@ -8,17 +8,40 @@
     } );
     
     // The event handler for clicking on 'Delete' button in the table of models
-    $( '.btn-delete' ).on( 'click', this, function( e ) {
-        e.preventDefault();
+    $( '.btn-model-delete' ).on( 'click', this, function( e ) {
         var rec_id = $(this).data( 'value' ),
             $btn = $(this);
+            dialog_window( $btn, rec_id, 'delete_model_item' );
+//        $( '#dialog-confirm' ).dialog({
+//          resizable: false,
+//          height:140,
+//          modal: true,
+//          buttons: {
+//            "Yes": function() {
+//              remove_model( $btn, rec_id );
+//              $( this ).dialog( "close" );
+//            },
+//            "No": function() {
+//              $( this ).dialog( "close" );
+//            }
+//          }
+//        });
+    });
+    
+    $( '.btn-order-delete' ).on( 'click', this, function() {
+            var rec_id = $(this).data( 'value' ),
+            $btn = $(this);
+            dialog_window( $btn, rec_id, 'delete_order_item' );
+    } );
+    
+    function dialog_window(elem, rec_id, action) {
         $( '#dialog-confirm' ).dialog({
           resizable: false,
           height:140,
           modal: true,
           buttons: {
             "Yes": function() {
-              remove_model( $btn, rec_id );
+              remove_record( elem, rec_id, action );
               $( this ).dialog( "close" );
             },
             "No": function() {
@@ -26,23 +49,24 @@
             }
           }
         });
-    });
+    }
     
-    function remove_model( elem, rec_id ) {
+    function remove_record( elem, rec_id, action ) {
         $.ajax({
             url: ajaxurl,
             type: 'GET',
             dataType: 'json',
             data: {
-                action: 'delete_model_item',
+                action: action,
                 security: TSM_MODEL_LOC.security,
                 rec_id: rec_id
             },
             success: function( response ) {
                 $( '#message' ).remove();
-                var message = '<div id="message" class="updated notice notice-success is-dismissible">' 
-                            + '<p>' + response.message + '</p><button type="button" class="notice-dismiss"></button></div>';
-                if ( response.delete_status == 'ok' ) {
+                var message = '<div id="message" class="updated notice notice-success is-dismissible">'
+                            + '<p>' + response.message
+                            + '</p><button type="button" class="notice-dismiss"></button></div>';
+                if ( response.delete_status == 'success' ) {
                     $( 'h1' ).after( message );
                     elem.parent().parent().remove();
                 } else if ( response.delete_status == 'error' ) {

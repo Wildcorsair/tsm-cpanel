@@ -1,19 +1,10 @@
 <form method="POST" action="<?php echo get_permalink() . '?page=tsm-cpanel-model-edit'; ?>">
 <div class="wrap">
     <h1><?php echo $caption; ?></h1>
-    <?php
-        if ( isset( $save_status ) && $save_status == 'complited' ) { ?>
-            <div id="message" class="updated notice notice-success is-dismissible">
-                <p>Changes successfully saved.</p>
-            </div>
-    <?php
-        } else if ( isset( $save_status ) && $save_status == 'failure' ) { ?>
-            <div id="message" class="updated error notice-error is-dismissible">
-                <p>Fill empty fields.</p>
-            </div>
-    <?php
-        }
-    ?>
+    <div id="message" style="display:<?php echo $block_visibility; ?>" 
+         class="<?php echo $classes; ?> updated is-dismissible">
+        <p><?php echo $message; ?></p>
+    </div>
 
     <!-- Brand -->
     <div class="meta-row">    

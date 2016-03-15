@@ -2,7 +2,7 @@
 <h1>Orders <a class="page-title-action" href="<?php echo get_permalink() . '?page=tsm-cpanel-order-edit'; ?>">Create new</a></h1>
     <table class="tsm-table">
       <tr>
-        <th>ID</th>
+        <!--<th>ID</th>-->
         <th>Brand</th>
         <th>Model</th>
         <th>E-Mail</th>
@@ -13,7 +13,7 @@
       </tr>
       <?php foreach ($rows as $row) { ?>
         <tr>
-          <td><?php echo $row->id; ?></td>
+          <!--<td><?php echo $row->id; ?></td>-->
           <td><?php echo $row->manufacturer_name; ?></td>
           <td><?php echo $row->model_name; ?></td>
           <td><?php echo $row->user_email; ?></td>
@@ -23,11 +23,17 @@
               <a href="<?php echo get_permalink() . '?page=tsm-cpanel-order-edit&order_id=' . $row->id; ?>">Edit</a>
           </td>
           <td class="control-container-cell">
-              <button class="btn-delete" data-value="<?php echo $row->id; ?>">Delete</button>
+              <button class="btn-order-delete" data-value="<?php echo $row->id; ?>">Delete</button>
           </td>
         </tr>
       <?php
       } ?>
     </table>
 </div>
-
+<!-- Dialog window -->
+<div id="dialog-confirm" title="Deleting">
+  <p>
+    <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;">    
+    </span>Delete item?
+  </p>
+</div>

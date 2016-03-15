@@ -1,10 +1,6 @@
 <?php
 global $wpdb;
 
-/**
- * Prepares data and displays order create/edit form
- */ 
-// Select brands
 if ( isset( $_GET['save'] ) ) {
     $save_status = sanitize_text_field( $_GET['save'] );
     
@@ -24,8 +20,13 @@ if ( isset( $_GET['save'] ) ) {
     $message = '';
 }
 
+// Select brands
 $query = "SELECT `id`, `manufacturer_name` FROM `{$wpdb->prefix}manufacturers` LIMIT 0, 100";
 $manufacturers = $wpdb->get_results($query);
+
+/**
+ * Prepares data and displays order create/edit form
+ */ 
 if ( isset( $_GET['order_id'] ) && !empty( $_GET['order_id'] ) ) {
 
     $order_id = intval( $_GET['order_id'] );
