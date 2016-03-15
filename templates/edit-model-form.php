@@ -1,9 +1,9 @@
 <form method="POST" action="<?php echo get_permalink() . '?page=tsm-cpanel-model-edit'; ?>">
 <div class="wrap">
     <h1><?php echo $caption; ?></h1>
-    <div id="message" style="display:<?php echo $block_visibility; ?>" 
-         class="<?php echo $classes; ?> updated is-dismissible">
-        <p><?php echo $message; ?></p>
+    <div id="message" style="display:<?php echo $message_data['block_visibility']; ?>" 
+         class="<?php echo $message_data['classes']; ?> updated is-dismissible">
+        <p><?php echo $message_data['message']; ?></p>
     </div>
 
     <!-- Brand -->
@@ -64,7 +64,7 @@
     
     <div class="meta-row">
         <input type="submit" name="save_model" value="Save">
-        <a href="<?php echo get_permalink() . '?page=/tsm-cpanel/inc/tsm-models.php'; ?>">Go Back</a>
+        <a href="<?php echo get_permalink() . '?page=tsm-all-models'; ?>">Go Back</a>
     </div>
 </div>
 </form>

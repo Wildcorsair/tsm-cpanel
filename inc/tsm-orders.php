@@ -101,7 +101,7 @@ function tsm_delete_order_item() {
         $rec_id = intval( $_GET['rec_id'] );
         $affected_rows = $wpdb->delete( "{$wpdb->prefix}orders", array( 'id' => $rec_id ), array( '%d' ) );
         if ( $affected_rows > 0 ) {
-            return wp_send_json( array( 'delete_status' =>  'success', 'message' => 'Removing completed.' ) );
+            return wp_send_json( array( 'delete_status' =>  'success', 'message' => 'Record was removed.' ) );
         } else {
             return wp_send_json( array( 'delete_status' =>  'error', 'message' => 'Can\'t to remove this order!' ) );
         }

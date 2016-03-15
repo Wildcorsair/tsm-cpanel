@@ -5,19 +5,24 @@
  */
 
 function tsm_device_menu() {
-    $page_title = 'Devices';
-    $menu_title = 'All devices';
-    $capability = 'manage_options';
-    $menu_slug = __FILE__;
-    $func = 'tsm_show_devices';
-    add_menu_page($page_title, $menu_title, $capability, $menu_slug, $func, 'dashicons-desktop', 110);
-    
-    $page_title = 'Devices: Add device';
-    $menu_title = 'Add device';
-    $capability = 'manage_options';
-    $menu_slug = 'tsm-cpanel-model-edit';
-    $func = 'create_new_model';
-    add_submenu_page(__FILE__, $page_title, $menu_title, $capability, $menu_slug, $func);
+    add_menu_page(
+        'Devices',
+            'All devices',
+            'manage_options',
+            'tsm-all-models',
+            'tsm_show_devices',
+            'dashicons-desktop',
+            110
+    );
+
+    add_submenu_page(
+        'tsm-all-models',
+        'Devices: Add device',
+        'Add device',
+        'manage_options',
+        'tsm-cpanel-model-edit',
+        'create_new_model'
+    );
 }
 
 /**
@@ -68,7 +73,7 @@ function tsm_delete_model_item() {
     $column = $wpdb->get_col( $wpdb->prepare( "SELECT COUNT(*) AS `rows_count` FROM `{$wpdb->prefix}orders` WHERE `model_id` = %d", $rec_id ), 0 );
     if ( $column[0] == 0 ) {
         $wpdb->delete( "{$wpdb->prefix}models", array( 'id' => $rec_id ), array( '%d' ) );
-        return wp_send_json( array( 'delete_status' =>  'success', 'message' => 'Removing completed.' ) );
+        return wp_send_json( array( 'delete_status' =>  'success', 'message' => 'Record was removed.' ) );
     }
     return wp_send_json( array( 'delete_status' =>  'error', 'message' => 'Can\'t to remove this model! The model has dependence.' ) );
 }
