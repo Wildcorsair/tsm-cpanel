@@ -1,0 +1,45 @@
+.tsm-table {
+    color: #005684;
+    font-size: 16px;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.tsm-table th,
+.tsm-table td {
+    margin-top: 15px; 
+    padding: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+.control-container-cell {
+    text-align: center;
+}
+.meta-row {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#dialog-confirm {
+    display: none;
+}
+
+.control-container-cell a {
+    color: #006505;
+    text-decoration: none;
+}
+.control-container-cell button {
+    border: none;
+    color: #d92e23;
+    background-color: #fff;
+    cursor: pointer;
+}
+#model-id {
+    width: 350px;
+}
+#device-price {
+    width: 80px; 
+}
+.meta-td label {
+    margin-right: 15px;
+}
