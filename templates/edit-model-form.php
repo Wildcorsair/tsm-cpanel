@@ -43,7 +43,7 @@
             <label for="model-price">Full price</label>
         </div>
         <div class="meta-td">
-            <input type="text" id="model-price" name="full_price" value="<?php echo isset( $record->full_price ) ? $record->full_price : ''; ?>" />
+            <input type="text" id="device-price" name="full_price" value="<?php echo isset( $record->full_price ) ? $record->full_price : ''; ?>" />
         </div>
     </div>
     <!-- /Price -->

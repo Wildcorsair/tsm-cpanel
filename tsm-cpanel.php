@@ -38,7 +38,12 @@ function custom_script_registration() {
     ));
 }
 
+function tsm_plugin_install() {
+    require( PLUGINS_DIR . 'inc/tsm-plugin-install.php' );
+}
+
 //add_action( 'wp_enqueue_scripts', 'custom_styles_registration' );
+register_activation_hook(__FILE__, 'tsm_plugin_install');
 add_action( 'admin_enqueue_scripts', 'custom_styles_registration' );
 add_action( 'admin_enqueue_scripts', 'custom_script_registration' );
 

@@ -34,7 +34,8 @@
     background-color: #fff;
     cursor: pointer;
 }
-#model-id {
+#model-id,
+#model-name {
     width: 350px;
 }
 #device-price {

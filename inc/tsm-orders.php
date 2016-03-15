@@ -80,6 +80,12 @@ function tsm_get_models_by_brand_id() {
     return wp_send_json( $rows );
 }
 
+/**
+ * Deletes order from database, returns the json data: status result and message
+ * 
+ * @global object $wpdb
+ * @return json
+ */
 function tsm_delete_order_item() {
     global $wpdb;
     
@@ -95,13 +101,16 @@ function tsm_delete_order_item() {
         $rec_id = intval( $_GET['rec_id'] );
         $affected_rows = $wpdb->delete( "{$wpdb->prefix}orders", array( 'id' => $rec_id ), array( '%d' ) );
         if ( $affected_rows > 0 ) {
-            return wp_send_json( array( 'delete_status' =>  'success', 'message' => 'Remove complited.' ) );
+            return wp_send_json( array( 'delete_status' =>  'success', 'message' => 'Removing completed.' ) );
         } else {
             return wp_send_json( array( 'delete_status' =>  'error', 'message' => 'Can\'t to remove this order!' ) );
         }
     }
 }
 
+/**
+ * Appends or updates the order record
+ */
 if ( isset( $_POST['save_order'] ) ) {
 
     global $wpdb;
