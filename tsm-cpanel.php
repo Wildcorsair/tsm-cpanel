@@ -48,6 +48,7 @@ add_action( 'admin_enqueue_scripts', 'custom_styles_registration' );
 add_action( 'admin_enqueue_scripts', 'custom_script_registration' );
 
 // Includes parts of plugin
+require_once( ABSPATH .'wp-includes/pluggable.php' );
 require( PLUGINS_DIR . 'inc/tsm-common.php' );
 require( PLUGINS_DIR . 'inc/tsm-orders.php' );
 require( PLUGINS_DIR . 'inc/tsm-models.php' );

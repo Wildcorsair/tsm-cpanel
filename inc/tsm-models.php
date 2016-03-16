@@ -90,13 +90,18 @@ if ( isset( $_POST['save_model'] ) ) {
         $model_id = 0;
     }
 
+    if ( !wp_verify_nonce($_POST['s34qw98dotnkd4963df'], 'd54z7fg97' ) ) {
+        header( 'Location: ' . get_permalink() . '?page=tsm-cpanel-model-edit&save=failure&code=4&model_id=' . $model_id );
+        exit();
+    }
+    
     $model_name = sanitize_text_field( $_POST['model_name'] );
     $manufacturer_ID = intval( $_POST['manufacturer'] );
     $full_price = floatval( $_POST['full_price'] );
     $model_visibility = intval( $_POST['model_visibility'] );
-    
+   
     if ( empty( $model_name ) || empty( $full_price ) ) {
-        header( 'Location: ' . get_permalink() . '?page=tsm-cpanel-model-edit&save=failure&model_id=' . $model_id );
+        header( 'Location: ' . get_permalink() . '?page=tsm-cpanel-model-edit&save=failure&code=2&model_id=' . $model_id );
         exit();
     }
 

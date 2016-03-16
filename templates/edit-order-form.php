@@ -5,7 +5,7 @@
          class="<?php echo $message_data['classes']; ?> updated is-dismissible">
         <p><?php echo $message_data['message']; ?></p>
     </div>
-
+    <?php wp_nonce_field( 'er7z247d3', 'hjfv548sd9g1hf9w36f9v' ); ?>
     <!-- Brand -->
     <div class="meta-row">
       <div class="meta-th">

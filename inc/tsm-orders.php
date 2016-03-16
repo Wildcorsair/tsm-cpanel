@@ -112,13 +112,17 @@ function tsm_delete_order_item() {
  * Appends or updates the order record
  */
 if ( isset( $_POST['save_order'] ) ) {
-
     global $wpdb;
 
     if ( isset( $_POST['order_id'] ) || !empty( $_POST['order_id'] ) ) {
         $order_id = intval( $_POST['order_id'] );
     } else {
         $order_id = 0;
+    }
+    
+    if ( !wp_verify_nonce($_POST['hjfv548sd9g1hf9w36f9v'], 'er7z247d3' ) ) {
+        header( 'Location: ' . get_permalink() . '?page=tsm-cpanel-order-edit&save=failure&code=4&order_id=' . $order_id );
+        exit();
     }
     
     $brand_id = intval( $_POST['brand_id'] );
@@ -130,7 +134,17 @@ if ( isset( $_POST['save_order'] ) ) {
     $status_id = intval( $_POST['status_id'] );
 
     if ( empty( $user_email ) ) {
-        header( 'Location: ' . get_permalink() . '?page=tsm-cpanel-order-edit&save=failure&order_id=' . $order_id );
+        header( 'Location: ' . get_permalink() . '?page=tsm-cpanel-order-edit&save=failure&code=2&order_id=' . $order_id );
+        exit();
+    }
+    
+    if ( !filter_var( $user_email, FILTER_VALIDATE_EMAIL) ) {       
+        header( 'Location: ' . get_permalink() . '?page=tsm-cpanel-order-edit&save=failure&code=3&order_id=' . $order_id );
+        exit();
+    }
+    
+    if ( $model_id == 0 ) {
+        header( 'Location: ' . get_permalink() . '?page=tsm-cpanel-order-edit&save=failure&code=5&order_id=' . $order_id );
         exit();
     }
     
