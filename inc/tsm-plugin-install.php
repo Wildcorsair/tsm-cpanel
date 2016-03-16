@@ -5,7 +5,7 @@ global $wpdb;
 $table_manufacturers = $wpdb->prefix.'manufacturers';
 $table_models        = $wpdb->prefix.'models';
 $table_orders        = $wpdb->prefix.'orders';
-$charset_collate     = "ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARACTER SET {$wpdb->charset} COLLATE {$wpdb->collate}";
+$charset_collate     = "ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARACTER SET = {$wpdb->charset} COLLATE = {$wpdb->collate}";
 
 if($wpdb->get_var("SHOW TABLES LIKE `{$table_manufacturers}`") != $table_manufacturers) {
     
@@ -38,7 +38,8 @@ if($wpdb->get_var("SHOW TABLES LIKE `{$table_models}`") != $table_models) {
                 `brand_id` int(11) NOT NULL,
                 `full_price` decimal(10,2) NOT NULL,
                 `visibility` tinyint(1) NOT NULL,
-                PRIMARY KEY  (id)
+                PRIMARY KEY  (`id`),
+                CONSTRAINT `fk_manufModels` FOREIGN KEY (`brand_id`) REFERENCES {$table_manufacturers} (`id`)
             ) {$charset_collate};";
     dbDelta($sql);
 }
@@ -54,7 +55,9 @@ if($wpdb->get_var("SHOW TABLES LIKE `{$table_orders}`") != $table_orders) {
                 `device_price` decimal(10,2) NOT NULL,
                 `user_email` varchar(45) NOT NULL,
                 `order_status` tinyint(1) NOT NULL,
-                PRIMARY KEY  (id)
+                PRIMARY KEY  (`id`),
+                CONSTRAINT `fk_manufOrders` FOREIGN KEY (`brand_id`) REFERENCES {$table_manufacturers} (`id`),
+                CONSTRAINT `fk_modelOrders` FOREIGN KEY (`model_id`) REFERENCES {$table_models} (`id`)
             ) {$charset_collate};";
     dbDelta($sql);
 }
