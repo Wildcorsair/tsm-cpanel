@@ -44,3 +44,32 @@
 .meta-td label {
     margin-right: 15px;
 }
+#price-container {
+    padding: 2px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    width: 100px;
+    border: 1px solid #cdcdcd;
+    text-align: center;
+}
+#user-email {
+    width: 350px;
+}
+#tsm-message-frame {
+    padding: 5px;
+    display: none;
+    margin-bottom: 10px;
+    border: 1px solid #393;
+    font-family: Arial, Tahoma, Verdana, sans-serif;
+    font-size: 13px;
+    color: #393;
+}
+.tsm-public-form select {
+    height: 43px;
+    -webkit-border-radius: 2px;
+       -moz-border-radius: 2px;
+            border-radius: 2px;
+}
+.tsm-public-form select option {
+    height: 40px;
+}

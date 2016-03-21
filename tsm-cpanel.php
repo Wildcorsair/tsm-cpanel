@@ -34,7 +34,24 @@ function custom_script_registration() {
     wp_register_script( 'tsm-script', plugins_url('/tsm-cpanel/js/tsm-functions.js'), array(), '20160311', true);
     wp_enqueue_script( 'tsm-script' );
     wp_localize_script('tsm-script', 'TSM_MODEL_LOC', array(
-        'security' => wp_create_nonce('tsm_security_nonce')
+        'security' => wp_create_nonce('tsm_security_nonce'),
+    ));
+}
+
+function tsm_custom_public_styles_registration() {
+    wp_register_style( 'tsm-styles', plugins_url('/tsm-cpanel/css/tsm-styles.css'), array(), '20160311', 'all' );
+    wp_enqueue_style( 'tsm-styles' );
+}
+
+/**
+ * Register custom js functions for public pages
+ */
+function tsm_custom_public_script_registration() {
+    wp_register_script( 'tsm-custom-functions', plugins_url('/tsm-cpanel/js/tsm-custom-functions.js'), array(), '20160320', true);
+    wp_enqueue_script( 'tsm-custom-functions' );
+    wp_localize_script('tsm-custom-functions', 'GVARS', array(
+        'security' => wp_create_nonce('tsm_security_nonce'),
+        'ajaxurl' => admin_url('admin-ajax.php')
     ));
 }
 
@@ -42,13 +59,22 @@ function tsm_plugin_install() {
     require( PLUGINS_DIR . 'inc/tsm-plugin-install.php' );
 }
 
-//add_action( 'wp_enqueue_scripts', 'custom_styles_registration' );
+/**
+ * Admin scripts registration
+ */
 register_activation_hook(__FILE__, 'tsm_plugin_install');
 add_action( 'admin_enqueue_scripts', 'custom_styles_registration' );
 add_action( 'admin_enqueue_scripts', 'custom_script_registration' );
+
+/**
+ * Public scripts registration
+ */
+add_action( 'wp_enqueue_scripts', 'tsm_custom_public_styles_registration' );
+add_action( 'wp_enqueue_scripts', 'tsm_custom_public_script_registration' );
 
 // Includes parts of plugin
 require_once( ABSPATH .'wp-includes/pluggable.php' );
 require( PLUGINS_DIR . 'inc/tsm-common.php' );
 require( PLUGINS_DIR . 'inc/tsm-orders.php' );
 require( PLUGINS_DIR . 'inc/tsm-models.php' );
+require( PLUGINS_DIR . 'inc/tsm-shortcode.php' );

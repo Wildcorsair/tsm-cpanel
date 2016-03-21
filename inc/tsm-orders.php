@@ -64,9 +64,9 @@ function tsm_get_models_by_brand_id() {
         return wp_send_json_error( 'Invalid security key!' );
     }
     
-    if ( !current_user_can( 'manage_options' ) ) {
+    /*if ( !current_user_can( 'manage_options' ) ) {
         return wp_send_json_error( 'Sorry, access denied!' );
-    }
+    }*/
     
     $brand_id = intval($_GET['brand_id']);
     $rows = $wpdb->get_results( $wpdb->prepare( "SELECT
@@ -108,6 +108,60 @@ function tsm_delete_order_item() {
     }
 }
 
+function tsm_save_new_order() {
+    global $wpdb;
+    
+    if ( !check_ajax_referer( 'tsm_security_nonce', 'security' ) ) {
+        return wp_send_json_error( 'Invalid security key!' );
+    }
+    
+    if ( isset( $_POST['brand_id'] ) ) {
+        $brand_id       = intval( $_POST['brand_id'] );
+        $model_id       = intval( $_POST['model_id'] );
+        $full_price     = floatval( $_POST['full_price'] );
+        $cond_percent   = intval( $_POST['cond_percent'] );
+        $price          = floatval( $_POST['price'] );
+        $email          = sanitize_text_field( $_POST['email'] );
+    }
+
+    $result = $wpdb->insert( "{$wpdb->prefix}orders",
+            array(
+                'brand_id'          => $brand_id,
+                'model_id'          => $model_id,
+                'device_full_price' => $full_price,
+                'cond_percent'      => $cond_percent,
+                'device_price'      => $price,
+                'user_email'        => $email,
+                'order_status'      => 0
+            ),
+            array(
+                '%d',
+                '%d',
+                '%f',
+                '%d',
+                '%f',
+                '%s',
+                '%d'
+            )
+    );
+    if ( $result ) {
+        return wp_send_json( array( 'status' => 'success' ) );
+    } else {
+        return wp_send_json_error( array( 'status' => 'error' ) );
+    }
+}
+
+/*function tsm_select_models_by_brand_id() {
+    global $wpdb;
+    
+    if ( !check_ajax_referer( 'tsm_security_nonce', 'security' ) ) {
+        return wp_send_json_error( 'Invalid security key!' );
+    }
+    
+    $brand_id = intval( $_GET['brand_id'] );
+    return wp_send_json( array( 'status' => 'ok' ) );
+}*/
+
 /**
  * Appends or updates the order record
  */
@@ -125,13 +179,13 @@ if ( isset( $_POST['save_order'] ) ) {
         exit();
     }
     
-    $brand_id = intval( $_POST['brand_id'] );
-    $model_id = intval( $_POST['model_id'] );
-    $device_full_price = floatval( $_POST['device_full_price'] );
-    $cond_percent = ( intval( $_POST['condition'] ) > 0) ? intval( $_POST['condition'] ) : 100;
-    $device_price = floatval( $_POST['device_price'] );
-    $user_email = sanitize_text_field( $_POST['user_email'] );
-    $status_id = intval( $_POST['status_id'] );
+    $brand_id           = intval( $_POST['brand_id'] );
+    $model_id           = intval( $_POST['model_id'] );
+    $device_full_price  = floatval( $_POST['device_full_price'] );
+    $cond_percent       = ( intval( $_POST['condition'] ) > 0) ? intval( $_POST['condition'] ) : 100;
+    $device_price       = floatval( $_POST['device_price'] );
+    $user_email         = sanitize_text_field( $_POST['user_email'] );
+    $status_id          = intval( $_POST['status_id'] );
 
     if ( empty( $user_email ) ) {
         header( 'Location: ' . get_permalink() . '?page=tsm-cpanel-order-edit&save=failure&code=2&order_id=' . $order_id );
@@ -152,14 +206,14 @@ if ( isset( $_POST['save_order'] ) ) {
     $wpdb->replace(
         $table,
         array(
-            'id' => $order_id,
-            'brand_id' => $brand_id,
-            'model_id' => $model_id,
+            'id'            => $order_id,
+            'brand_id'      => $brand_id,
+            'model_id'      => $model_id,
             'device_full_price' => $device_full_price,
-            'cond_percent' => $cond_percent,
-            'device_price' => $device_price,
-            'user_email' => $user_email,
-            'order_status' => $status_id,
+            'cond_percent'  => $cond_percent,
+            'device_price'  => $device_price,
+            'user_email'    => $user_email,
+            'order_status'  => $status_id,
         ), 
         array(
             '%d',
@@ -184,3 +238,9 @@ if ( isset( $_POST['save_order'] ) ) {
 add_action( 'wp_ajax_delete_order_item', 'tsm_delete_order_item' );
 add_action( 'wp_ajax_check_brand_item', 'tsm_get_models_by_brand_id' );
 add_action('admin_menu', 'tsm_order_menu');
+
+add_action('wp_ajax_select_models_by_brand_id', 'tsm_get_models_by_brand_id');
+add_action('wp_ajax_nopriv_select_models_by_brand_id', 'tsm_get_models_by_brand_id');
+
+add_action('wp_ajax_save_new_order', 'tsm_save_new_order');
+add_action('wp_ajax_nopriv_save_new_order', 'tsm_save_new_order');

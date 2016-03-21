@@ -12,20 +12,6 @@
         var rec_id = $(this).data( 'value' ),
             $btn = $(this);
             dialog_window( $btn, rec_id, 'delete_model_item' );
-//        $( '#dialog-confirm' ).dialog({
-//          resizable: false,
-//          height:140,
-//          modal: true,
-//          buttons: {
-//            "Yes": function() {
-//              remove_model( $btn, rec_id );
-//              $( this ).dialog( "close" );
-//            },
-//            "No": function() {
-//              $( this ).dialog( "close" );
-//            }
-//          }
-//        });
     });
     
     $( '.btn-order-delete' ).on( 'click', this, function() {
@@ -85,9 +71,9 @@
             $brand_list = $(this),
             $model_list = $( '#model-id' ),
             brand_id = $brand_list.val(),
-            optionList = '';
-
-        $.ajax({
+            option_list = '';
+        
+        $.ajax( {
             url: ajaxurl,
             type: 'GET',
             dataType: 'json',
@@ -100,21 +86,21 @@
                 $model_list.empty();
                 if ( response.length > 0 ) {
                     for (i = 0; i < response.length; i++ ) {
-                        optionList += '<option value="' + response[ i ].id + '|' 
+                        option_list += '<option value="' + response[ i ].id + '|' 
                                     + response[ i ].full_price + '">'
                                     + response[ i ].model_name + '</option>';
                     }
                     $( '#device-full-price' ).val(response[ 0 ].full_price);
                     $( '#device-price' ).val(response[ 0 ].full_price);
                 } else {
-                    optionList += '<option value="0">No models of this brand</option>';
+                    option_list += '<option value="0">No models of this brand</option>';
                     $( '#device-full-price' ).val( 0 );
                     $( '#device-price' ).val( 0 );
                 }
-                $model_list.append( optionList );
+                $model_list.append( option_list );
                 uncheck_condition();
             }
-        });
+        } );
     } );
     
     $( '#model-id' ).on( 'change', this, function() {
@@ -129,7 +115,6 @@
             $device_full_price.val(model_price);
             $device_price.val(model_price);
             uncheck_condition();
-//            console.log(model_price);
     } );
     
     // The event handler for clicking on 'Condition' radio buttons into the create/edit order form
@@ -139,19 +124,14 @@
             $price_elem = $( '#device-price' ),
             full_price = $full_price_elem.val(),
             counted_price;
-            
+
             counted_price = parseFloat(full_price * percent / 100);
-            $price_elem.val( counted_price );          
+            $price_elem.val( counted_price );
 //            console.log();
     } );
     
     function uncheck_condition() {
         $( '#device-condition-controls input[type="radio"]:checked' ).prop( 'checked', false );
     }
-    
-    /*function isEmail(email) {
-      var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-      return regex.test(email);
-    }*/
-    
+
 })(jQuery);
