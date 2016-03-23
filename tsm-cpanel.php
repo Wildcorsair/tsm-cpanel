@@ -11,6 +11,10 @@ Author: Vladimir Zakharchenko
 Version: 1.0
 */
 
+if ( !session_id() ) {
+    session_start();
+}
+
 define( 'PLUGINS_DIR', plugin_dir_path(__FILE__) );
 
 /**

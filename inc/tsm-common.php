@@ -26,7 +26,8 @@ function tsm_get_CRUD_message() {
                                                     ? $tsm_error_text_messages[$code] 
                                                     : $tsm_error_text_messages[0];
             }
-            $message_data['classes'] = 'error notice-error';
+//            $message_data['classes'] = 'error notice-error';
+            $message_data['classes'] = 'error settings-error notice is-dismissible';
         }
         $message_data['block_visibility'] = 'block';
     }

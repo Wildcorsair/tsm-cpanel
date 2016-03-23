@@ -173,19 +173,29 @@ if ( isset( $_POST['save_order'] ) ) {
     } else {
         $order_id = 0;
     }
+
+    $brand_id           = intval( $_POST['brand_id'] );
+    $model_id           = intval( $_POST['model_id'] );
+    $device_full_price  = floatval( $_POST['device_full_price'] );
+    $cond_percent       = intval( $_POST['condition'] );
+    $device_price       = floatval( $_POST['device_price'] );
+    $user_email         = sanitize_text_field( $_POST['user_email'] );
+    $status_id          = intval( $_POST['status_id'] );
+
+    $_SESSION['brand_id'] = $brand_id;
+    $_SESSION['model_id'] = $model_id;
+    $_SESSION['device_full_price'] = $device_full_price;
+    $_SESSION['cond_percent'] = $cond_percent;
+    $_SESSION['device_price'] = $device_price;
+    $_SESSION['user_email'] = $user_email;
+    $_SESSION['status_id'] = $status_id;
+
+    $cond_percent = ( $cond_percent > 0) ? $cond_percent : 100;
     
     if ( !wp_verify_nonce($_POST['hjfv548sd9g1hf9w36f9v'], 'er7z247d3' ) ) {
         header( 'Location: ' . get_permalink() . '?page=tsm-cpanel-order-edit&save=failure&code=4&order_id=' . $order_id );
         exit();
     }
-    
-    $brand_id           = intval( $_POST['brand_id'] );
-    $model_id           = intval( $_POST['model_id'] );
-    $device_full_price  = floatval( $_POST['device_full_price'] );
-    $cond_percent       = ( intval( $_POST['condition'] ) > 0) ? intval( $_POST['condition'] ) : 100;
-    $device_price       = floatval( $_POST['device_price'] );
-    $user_email         = sanitize_text_field( $_POST['user_email'] );
-    $status_id          = intval( $_POST['status_id'] );
 
     if ( empty( $user_email ) ) {
         header( 'Location: ' . get_permalink() . '?page=tsm-cpanel-order-edit&save=failure&code=2&order_id=' . $order_id );
