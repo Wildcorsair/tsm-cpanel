@@ -179,15 +179,16 @@ if ( isset( $_POST['save_order'] ) ) {
     $device_full_price  = floatval( $_POST['device_full_price'] );
     $cond_percent       = intval( $_POST['condition'] );
     $device_price       = floatval( $_POST['device_price'] );
-    $user_email         = sanitize_text_field( $_POST['user_email'] );
+    $customer_email     = sanitize_text_field( $_POST['user_email'] );
     $status_id          = intval( $_POST['status_id'] );
 
+    $_SESSION['id'] = $order_id;
     $_SESSION['brand_id'] = $brand_id;
     $_SESSION['model_id'] = $model_id;
     $_SESSION['device_full_price'] = $device_full_price;
     $_SESSION['cond_percent'] = $cond_percent;
     $_SESSION['device_price'] = $device_price;
-    $_SESSION['user_email'] = $user_email;
+    $_SESSION['user_email'] = $customer_email;
     $_SESSION['status_id'] = $status_id;
 
     $cond_percent = ( $cond_percent > 0) ? $cond_percent : 100;
@@ -197,12 +198,12 @@ if ( isset( $_POST['save_order'] ) ) {
         exit();
     }
 
-    if ( empty( $user_email ) ) {
+    if ( empty( $customer_email ) ) {
         header( 'Location: ' . get_permalink() . '?page=tsm-cpanel-order-edit&save=failure&code=2&order_id=' . $order_id );
         exit();
     }
     
-    if ( !filter_var( $user_email, FILTER_VALIDATE_EMAIL) ) {       
+    if ( !filter_var( $customer_email, FILTER_VALIDATE_EMAIL) ) {
         header( 'Location: ' . get_permalink() . '?page=tsm-cpanel-order-edit&save=failure&code=3&order_id=' . $order_id );
         exit();
     }
@@ -211,6 +212,9 @@ if ( isset( $_POST['save_order'] ) ) {
         header( 'Location: ' . get_permalink() . '?page=tsm-cpanel-order-edit&save=failure&code=5&order_id=' . $order_id );
         exit();
     }
+    /*echo '<pre>';
+    print_r($user_email);
+    echo '</pre>';*/
     
     $table = $wpdb->prefix . 'orders';
     $wpdb->replace(
@@ -222,7 +226,7 @@ if ( isset( $_POST['save_order'] ) ) {
             'device_full_price' => $device_full_price,
             'cond_percent'  => $cond_percent,
             'device_price'  => $device_price,
-            'user_email'    => $user_email,
+            'user_email'    => $customer_email,
             'order_status'  => $status_id,
         ), 
         array(
@@ -236,8 +240,6 @@ if ( isset( $_POST['save_order'] ) ) {
             '%d'
         )
     );
-//    $wpdb->print_error();
-//    die();
     header( 'Location: ' . get_permalink() . '?page=tsm-cpanel-order-edit&save=complited&order_id=' . $wpdb->insert_id );
     exit();
 }

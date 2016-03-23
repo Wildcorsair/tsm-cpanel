@@ -10,7 +10,7 @@
     <div class="meta-row">
       <div class="meta-th">
         <label for="order-brand-id">Brand</label>
-        <input type="hidden" name="order_id" value="<?php echo ( isset( $order['id'] ) ) ? $order['id'] : ''; ?>" />
+        <input type="hidden" name="order_id" value="<?php echo ( isset( $order['id'] ) ) ? $order['id'] : null; ?>" />
       </div>
       <div class="meta-td">
         <select id="order-brand-id" name="brand_id">
@@ -98,7 +98,7 @@
       </div>
       <div class="meta-td">
         <input id="user-email" type="text" name="user_email" 
-               value="<?php echo ( isset( $order['user_email'] ) ) ? $order['user_email'] : null; ?>" />
+               value="<?php echo ( isset( $order['user_email'] ) ) ? $order['user_email'] : ''; ?>" />
       </div>
     </div>
     <!-- /E-mail -->

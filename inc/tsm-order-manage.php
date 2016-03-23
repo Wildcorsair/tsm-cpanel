@@ -14,17 +14,9 @@ if ( isset( $_GET['order_id'] ) && !empty( $_GET['order_id'] ) ) {
 
     $order_id = intval( $_GET['order_id'] );
     $caption = "Edit order";
+    $order = get_temp_data();
 
-    if ( isset( $_SESSION['brand_id'] ) ) {
-        $order['brand_id'] = $_SESSION['brand_id'];
-        $order['model_id'] = $_SESSION['model_id'];
-        $order['device_full_price'] = $_SESSION['device_full_price'];
-        $order['cond_percent'] = $_SESSION['cond_percent'];
-        $order['device_price'] = $_SESSION['device_price'];
-        $order['user_email'] = $_SESSION['user_email'];
-        $order['order_status'] = $_SESSION['status_id'];
-        session_destroy();
-    } else {
+    if ( empty( $order ) ) {
         // Select order data
         $query = "SELECT 
                     `id`,
@@ -55,21 +47,12 @@ if ( isset( $_GET['order_id'] ) && !empty( $_GET['order_id'] ) ) {
               LIMIT 0, 100";
     $devices = $wpdb->get_results($query);
 } else {
-    
     $caption = "Add order";
-    $order['model_id'] = $manufacturers[0]->id;
-    
-    if ( isset( $_SESSION['brand_id'] ) ) {
-        $order['brand_id'] = $_SESSION['brand_id'];
-        $order['model_id'] = $_SESSION['model_id'];
-        $order['device_full_price'] = $_SESSION['device_full_price'];
-        $order['cond_percent'] = $_SESSION['cond_percent'];
-        $order['device_price'] = $_SESSION['device_price'];
-        $order['user_email'] = $_SESSION['user_email'];
-        $order['order_status'] = $_SESSION['status_id'];
-        session_destroy();
+    $order = get_temp_data();
+    if ( empty( $order ) ) {
+        $order['model_id'] = $manufacturers[0]->id;
     }
-    
+
     $query = "SELECT
                     `id`,
                     `model_name`,

@@ -33,3 +33,19 @@ function tsm_get_CRUD_message() {
     }
     return $message_data;
 }
+
+function get_temp_data() {
+    $order = array();
+    if ( isset( $_SESSION['brand_id'] ) ) {
+        $order['id']                = $_SESSION['id'];
+        $order['brand_id']          = $_SESSION['brand_id'];
+        $order['model_id']          = $_SESSION['model_id'];
+        $order['device_full_price'] = $_SESSION['device_full_price'];
+        $order['cond_percent']      = $_SESSION['cond_percent'];
+        $order['device_price']      = $_SESSION['device_price'];
+        $order['user_email']        = $_SESSION['user_email'];
+        $order['order_status']      = $_SESSION['status_id'];
+        session_destroy();
+    }
+    return $order;
+}
