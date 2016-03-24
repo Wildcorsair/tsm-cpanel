@@ -14,12 +14,14 @@
             dialog_window( $btn, rec_id, 'delete_model_item' );
     });
     
+    // The event handler for clicking on 'Delete' button in the table of orders
     $( '.btn-order-delete' ).on( 'click', this, function() {
             var rec_id = $(this).data( 'value' ),
             $btn = $(this);
             dialog_window( $btn, rec_id, 'delete_order_item' );
     } );
     
+    // Displays dialog window
     function dialog_window(elem, rec_id, action) {
         $( '#dialog-confirm' ).dialog({
           resizable: false,
@@ -37,6 +39,13 @@
         });
     }
     
+    /**
+     * Delete record from DB and remove line from table on the page
+     * @param {object} elem
+     * @param {integer} rec_id
+     * @param {string} action
+     * @returns {undefined}
+     */
     function remove_record( elem, rec_id, action ) {
         $.ajax({
             url: ajaxurl,
@@ -103,6 +112,7 @@
         } );
     } );
     
+    // The event handler for change on the "Models" select
     $( '#model-id' ).on( 'change', this, function() {
         var model_data = $(this).val(),
             model_price,
@@ -127,9 +137,9 @@
 
             counted_price = parseFloat(full_price * percent / 100);
             $price_elem.val( counted_price );
-//            console.log();
     } );
     
+    // Uncheck "Condition" radio button, when was changed brand or model in the selects
     function uncheck_condition() {
         $( '#device-condition-controls input[type="radio"]:checked' ).prop( 'checked', false );
     }

@@ -151,17 +151,6 @@ function tsm_save_new_order() {
     }
 }
 
-/*function tsm_select_models_by_brand_id() {
-    global $wpdb;
-    
-    if ( !check_ajax_referer( 'tsm_security_nonce', 'security' ) ) {
-        return wp_send_json_error( 'Invalid security key!' );
-    }
-    
-    $brand_id = intval( $_GET['brand_id'] );
-    return wp_send_json( array( 'status' => 'ok' ) );
-}*/
-
 /**
  * Appends or updates the order record
  */
@@ -212,9 +201,6 @@ if ( isset( $_POST['save_order'] ) ) {
         header( 'Location: ' . get_permalink() . '?page=tsm-cpanel-order-edit&save=failure&code=5&order_id=' . $order_id );
         exit();
     }
-    /*echo '<pre>';
-    print_r($user_email);
-    echo '</pre>';*/
     
     $table = $wpdb->prefix . 'orders';
     $wpdb->replace(

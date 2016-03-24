@@ -4,6 +4,11 @@
  * Common functions module
  */
 
+/**
+ * Returns message string, message type and class for message block in the order
+ * or model form
+ * @return array
+ */
 function tsm_get_CRUD_message() {
     $tsm_error_text_messages = require_once( PLUGINS_DIR . 'inc/tsm-text-messages.php' );
 
@@ -26,7 +31,6 @@ function tsm_get_CRUD_message() {
                                                     ? $tsm_error_text_messages[$code] 
                                                     : $tsm_error_text_messages[0];
             }
-//            $message_data['classes'] = 'error notice-error';
             $message_data['classes'] = 'error settings-error notice is-dismissible';
         }
         $message_data['block_visibility'] = 'block';
@@ -34,6 +38,10 @@ function tsm_get_CRUD_message() {
     return $message_data;
 }
 
+/**
+ * Returns temporary data from session
+ * @return array
+ */
 function get_temp_data() {
     $order = array();
     if ( isset( $_SESSION['brand_id'] ) ) {
